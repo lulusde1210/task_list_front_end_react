@@ -21,15 +21,14 @@
 }
 
 
-.buttons button {
+button {
   position: relative;
   float: right;
   color: #f5ba13;
   border: none;
   margin: 6px;
   border-radius: 5px;
-  width: 60px;
-  height: 36px;
+  background-color: transparent;
   cursor: pointer;
   outline: none;
 }

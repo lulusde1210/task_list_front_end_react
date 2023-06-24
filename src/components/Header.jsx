@@ -1,11 +1,10 @@
 import './Header.css';
 import React from 'react';
-
-
+import AddTaskIcon from '@mui/icons-material/AddTask';
 const Header = () => {
     return (
         <header className="Header">
-            <h1>Task Keeper</h1>
+            <h1><AddTaskIcon />Task Keeper</h1>
         </header>
     );
 };

@@ -5,7 +5,8 @@ import Header from './components/Header';
 import CreateTaskForm from './components/CreateTaskForm';
 import axios from 'axios';
 
-const BASE_URL = "http://127.0.0.1:5000";
+// const BASE_URL = "http://127.0.0.1:5000";
+const BASE_URL = "https://lu-task-list-api.onrender.com";
 
 const convertFromApi = (apiTask) => {
   const { id, title, description, is_complete } = apiTask;
@@ -13,11 +14,11 @@ const convertFromApi = (apiTask) => {
   return newTask;
 };
 
-// const fetchTargeTask = async (id) => {
-//   const catResponse = await axios.get(`${BASE_URL}/tasks/${id}`);
-//   const task = convertFromApi(catResponse.data.task);
-//   return task
-// }
+const fetchTargeTask = async (id) => {
+  const catResponse = await axios.get(`${BASE_URL}/tasks/${id}`);
+  const task = convertFromApi(catResponse.data.task);
+  return task
+}
 
 const App = () => {
 
@@ -39,35 +40,22 @@ const App = () => {
   };
 
   const toggleIsComplete = async (id) => {
-    const catResponse = await axios.get(`${BASE_URL}/tasks/${id}`);
-    const task = convertFromApi(catResponse.data.task);
+    const task = await fetchTargeTask(id)
 
-    if (!task.isComplete) {
-      const response = await axios.patch(`${BASE_URL}/tasks/${id}/mark_complete`);
-      const newTask = convertFromApi(response.data);
-      setTasks((prevTasks) => {
-        return prevTasks.map((task) => {
-          if (task.id === id) {
-            return newTask
-          } else {
-            return task
-          }
-        });
-      });
-    } else {
-      const response = await axios.patch(`${BASE_URL}/tasks/${id}/mark_incomplete`);
-      const newTask = convertFromApi(response.data);
-      setTasks((prevTasks) => {
-        return prevTasks.map((task) => {
-          if (task.id === id) {
-            return newTask
-          } else {
-            return task
-          }
-        });
-      });
-    }
+    const mark = !task.isComplete ? 'mark_complete' : 'mark_incomplete';
 
+    const response = await axios.patch(`${BASE_URL}/tasks/${id}/${mark}`);
+
+    const newTask = convertFromApi(response.data);
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id === id) {
+          return newTask
+        } else {
+          return task
+        }
+      });
+    });
   };
 
   useEffect(() => {
@@ -78,10 +66,7 @@ const App = () => {
 
     }
     fetchTasks();
-
   }, [tasks])
-
-
 
   return (
     <div className="App">
@@ -91,5 +76,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;

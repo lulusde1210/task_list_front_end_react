@@ -1,8 +1,11 @@
 import { useState } from "react";
 import './CreateTaskForm.css';
+import AddIcon from '@mui/icons-material/Add';
+import { Fab, Zoom } from '@mui/material';
 
 function CreateTaskForm({ addTask }) {
     const [formData, setFormData] = useState({ title: '', description: '' });
+    const [isExpanded, setExpanded] = useState(false);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -20,21 +23,25 @@ function CreateTaskForm({ addTask }) {
     return (
         <div>
             <form className="create-task">
-                <input
-                    name="title"
-                    placeholder="Task Title"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                />
+                {isExpanded &&
+                    <input
+                        name="title"
+                        placeholder="Task Title"
+                        value={formData.title}
+                        onChange={handleInputChange}
+                    />
+                }
                 <textarea
+                    onClick={() => setExpanded(true)}
                     name="description"
-                    placeholder="Task description"
-                    rows="3"
+                    placeholder={isExpanded ? 'Task Content' : 'Create a task'}
+                    rows={isExpanded ? '3' : '1'}
                     value={formData.description}
                     onChange={handleInputChange}
-
                 />
-                <button onClick={handleAddTask}>Add</button>
+                <Zoom in={isExpanded}>
+                    <Fab onClick={handleAddTask}><AddIcon /></Fab>
+                </Zoom>
             </form>
         </div>
     );
