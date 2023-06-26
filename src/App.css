@@ -1,3 +1,12 @@
 .App {
     width: 100%;
 }
+
+#loading {
+    text-align: center;
+    color: #fff;
+    font-family: "McLaren", cursive;
+    font-weight: 200;
+    font-size: 6rem;
+    ;
+}

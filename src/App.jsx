@@ -21,8 +21,8 @@ const fetchTargeTask = async (id) => {
 }
 
 const App = () => {
-
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const addTask = async (formData) => {
     const response = await axios.post(`${BASE_URL}/tasks`, formData);
@@ -63,6 +63,7 @@ const App = () => {
       const response = await axios.get(`${BASE_URL}/tasks`);
       const tasks = response.data.map(convertFromApi);
       setTasks(tasks)
+      setIsLoading(false)
 
     }
     fetchTasks();
@@ -72,6 +73,7 @@ const App = () => {
     <div className="App">
       <Header />
       <CreateTaskForm addTask={addTask} />
+      {isLoading && <h1 id='loading'>Loading...</h1>}
       <TaskList tasks={tasks} deleteTask={deleteTask} toggleIsComplete={toggleIsComplete} />
     </div>
   );
