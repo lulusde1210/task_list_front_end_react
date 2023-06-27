@@ -33,3 +33,9 @@ form.create-task button {
     cursor: pointer;
     outline: none;
 }
+
+.not-valid-message {
+    color: salmon;
+    text-align: center;
+    font-family: "McLaren", cursive
+}

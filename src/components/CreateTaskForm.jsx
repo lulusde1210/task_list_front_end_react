@@ -6,9 +6,13 @@ import { Fab, Zoom } from '@mui/material';
 function CreateTaskForm({ addTask }) {
     const [formData, setFormData] = useState({ title: '', description: '' });
     const [isExpanded, setExpanded] = useState(false);
+    const [isValid, setIsValid] = useState(true);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+        if (value) {
+            setIsValid(true)
+        }
         setFormData((prevFormData) => {
             return { ...prevFormData, [name]: value }
         })
@@ -16,6 +20,10 @@ function CreateTaskForm({ addTask }) {
 
     const handleAddTask = (event) => {
         event.preventDefault();
+        if (formData.title.trim().length === 0 || formData.description.trim().length === 0) {
+            setIsValid(false);
+            return;
+        }
         addTask(formData);
         setFormData({ title: '', description: '' })
     };
@@ -26,7 +34,7 @@ function CreateTaskForm({ addTask }) {
                 {isExpanded &&
                     <input
                         name="title"
-                        placeholder="Task Title"
+                        placeholder={"Task Title"}
                         value={formData.title}
                         onChange={handleInputChange}
                     />
@@ -43,6 +51,7 @@ function CreateTaskForm({ addTask }) {
                     <Fab onClick={handleAddTask}><AddIcon /></Fab>
                 </Zoom>
             </form>
+            {!isValid && <p className="not-valid-message">❗️Oh,no! Your task is not complete!</p>}
         </div>
     );
 }
